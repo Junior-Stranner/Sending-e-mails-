@@ -1,66 +1,42 @@
 package com.jujubaprojects;
 
-import java.util.Properties;
-
-import javax.mail.Address;
-import javax.mail.Authenticator;
-import javax.mail.Message;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-
 
 /**
  * Unit test for simple App.
  */
 public class AppTest {
-    private String userName = "JuniorTesteStranner";
-    private String password = "ydbggjggqpccobdf";
-    /**
-     * Rigorous Test :-)
-     */
-   @org.junit.Test 
-public void testeEmail(){
 
-    try {
+ 
+    
+    @org.junit.Test
+    public void testeEmail() throws Exception{
 
-         /*Olhe as configurações smtp do seu E-mail*/
-        Properties properties = new Properties();
+        StringBuilder stringBuilderTextoEmail = new StringBuilder();
+        stringBuilderTextoEmail.append("Olá <br>");
+        stringBuilderTextoEmail.append("Você está recendo o acesso ao curso Java <br>");
 
-        properties.put("mail.smtp.ssl.trust","*");
-        properties.put("mail.smtp.auth","true");/*Autorização */
-        properties.put("mail.smtp.auth","true");/*Autorização */
-        properties.put("mail.smtp.starttls", "true");/*Autenticação */
-        properties.put("mail.smtp.host","smtp.gmail.com");/*Servidor Gmail Google */
-        properties.put("mail.smtp.port","465");/*Porta do Servidor */
-        properties.put("mail.smtp.socketFactory.port","465");/*Especifica a porta a ser Conectada pela socket */
-        properties.put("mail.smtp.socketFactory.Class","javax.net.ssl.SSLSocketFactory");/*Classe socket de conexão ao SMTP*/
+    //    stringBuilderTextoEmail.append("<a target=\_blank\href=\http://projetojavaweb.com/certificado-aluno/login\style>");
+       //   stringBuilderTextoEmail.append("<span style ");
 
-       Session session = Session.getInstance(properties, new Authenticator() {
-        protected  PasswordAuthentication getPasswordAuthentication(){
-            return new PasswordAuthentication(userName, password);
 
-           }
-       });
 
-       Address[] toUser = InternetAddress.parse("JuniorTesteStranner");
+        ObjetoEnviaEmail enviaEmail = new ObjetoEnviaEmail("JuniorTesteStranner@gmail.com",
+        "Junior Stranner",
+        "Testando email com Java",
+        stringBuilderTextoEmail.toString());
 
-       Message message = new MimeMessage(session);
-       message.setFrom(new InternetAddress(userName));/*Quem está enviando */
-       message.setRecipients(Message.RecipientType.TO,toUser);/*E-mail de destino "Para quem estou enviando" */
-       message.setSubject("E-mail enviado com Java");/*Assunto com email */
-   //    message.setContent(textoEmail,"text/html; charset=utf-8");
-       message.setText("Olá Programador , vc acaba de Receber um e-mail enviado com Java");
+         enviaEmail.enviarEmail(true);
+      
        
-       Transport.send(message);
-        
-        
-    } catch (Exception e) {
-        e.printStackTrace();
+       /*Caso o e-mail não seje enviado 
+        * Cloque um tempo de espera mais isso 
+        so pode ser usado para testes
+        */
+       Thread.sleep(5000);
+   //    System.out.println(session);
+       
 
     }
-  }
-     
+
+
 }
